@@ -29,27 +29,10 @@ export default [
     component: './Welcome',
   },
   {
-    path: '/admin',
-    name: 'admin',
+    name: 'list.account-list',
     icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-    ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/account',
+    component: './AccountList',
   },
   {
     path: '/',

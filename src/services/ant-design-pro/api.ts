@@ -83,3 +83,14 @@ export async function removeRule(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+/**  MJ 接口 */
+
+/**  DELETE /mj/account/query */
+export async function queryAccount(data: object, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/mj/account/query', {
+    method: 'POST',
+    data: data,
+    ...(options || {}),
+  });
+}
