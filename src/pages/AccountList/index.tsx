@@ -30,6 +30,7 @@ const AccountList: React.FC = () => {
   };
 
   const openMoreModal = (record: any) => {
+    console.log(record)
     setMoreField(record);
     setMoreModalVisible(true);
   };

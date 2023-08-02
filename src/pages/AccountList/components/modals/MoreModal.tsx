@@ -17,8 +17,12 @@ const MoreModal = ({
   };
 
   const changeDate = (date: string) => {
-    return moment(date).format('YYYY-MM-DD HH:mm:ss');
+    return moment(date).format('YYYY-MM-DD HH:mm');
   };
+
+  if (!record || Object.keys(record).length === 0) {
+    return (<AntModal></AntModal>);
+  }
 
   return (
     <AntModal title="完整信息" open={modalVisible} onCancel={hideModal} width={1000} footer={null}>
@@ -51,9 +55,7 @@ const MoreModal = ({
             {getStatusTag(record.enable, '正常', '关闭')}
           </Descriptions.Item>
           <Descriptions.Item label="mj版本">{record.version}</Descriptions.Item>
-          <Descriptions.Item label="账号模式">
-            {record.mode && record.mode === 'FAST' ? '快速' : '慢速'}
-          </Descriptions.Item>
+          <Descriptions.Item label="账号模式">{record['displays']['mode']}</Descriptions.Item>
           <Descriptions.Item label="remix">
             {getStatusTag(record.remix, '正常', '关闭')}
           </Descriptions.Item>
@@ -79,12 +81,10 @@ const MoreModal = ({
       <Card type="inner" title="额外信息" style={{ margin: '10px' }}>
         <Descriptions column={3}>
           <Descriptions.Item label="创建时间">{changeDate(record.dateCreated)}</Descriptions.Item>
-          <Descriptions.Item label="stylize级别">{record.stylize}</Descriptions.Item>
-          <Descriptions.Item label="variation级别">{record.variation}</Descriptions.Item>
-          <Descriptions.Item label="订阅计划">{record.subscribePlan}</Descriptions.Item>
-          <Descriptions.Item label="计费方式">
-            {record.billedWay && record.billedWay === 'MONTHLY' ? '月付' : '年付'}
-          </Descriptions.Item>
+          <Descriptions.Item label="stylize级别">{record['displays']['stylize']}</Descriptions.Item>
+          <Descriptions.Item label="variation级别">{record['displays']['variation']}</Descriptions.Item>
+          <Descriptions.Item label="订阅计划">{record['displays']['subscribePlan']}</Descriptions.Item>
+          <Descriptions.Item label="计费方式">{record['displays']['billedWay']}</Descriptions.Item>
           <Descriptions.Item label="续订日期">{changeDate(record.renewDate)}</Descriptions.Item>
         </Descriptions>
       </Card>
