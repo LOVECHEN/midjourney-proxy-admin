@@ -35,14 +35,10 @@ export default [
     component: './AccountList',
   },
   {
-    path: '/task',
-    routes: [
-      {
-        name: 'task-list',
-        path: '/task/list',
-        component: './Task/List',
-      },
-    ],
+    name: 'task-list',
+    icon: 'bars',
+    path: '/task/list',
+    component: './Task/List',
   },
   {
     path: '/',
