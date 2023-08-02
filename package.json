@@ -1,6 +1,6 @@
 {
-  "name": "ant-design-pro",
-  "version": "6.0.0",
+  "name": "midjourney-proxy-admin",
+  "version": "1.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
   "scripts": {

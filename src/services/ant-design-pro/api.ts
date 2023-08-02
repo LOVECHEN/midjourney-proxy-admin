@@ -91,6 +91,16 @@ export async function queryAccount(data: object, options?: { [key: string]: any 
   return request<Record<string, any>>('/mj/account/query', {
     method: 'POST',
     data: data,
+    headers:{"mj-api-secret":"homoloadmin"},
+    ...(options || {}),
+  });
+}
+
+export async function queryTask(data: object, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/mj/task-admin/query', {
+    method: 'POST',
+    data: data,
+    headers:{"mj-api-secret":"homoloadmin"},
     ...(options || {}),
   });
 }

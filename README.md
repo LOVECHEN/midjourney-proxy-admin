@@ -1,2 +1,2 @@
 # midjourney-proxy-admin
-midjourney-proxy的管理后台
+midjourney-proxy-plus的管理后台

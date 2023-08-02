@@ -35,6 +35,16 @@ export default [
     component: './AccountList',
   },
   {
+    path: '/task',
+    routes: [
+      {
+        name: 'task-list',
+        path: '/task/list',
+        component: './Task/List',
+      },
+    ],
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
