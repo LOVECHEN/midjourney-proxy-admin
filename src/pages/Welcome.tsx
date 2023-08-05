@@ -114,7 +114,7 @@ const Welcome: React.FC = () => {
               color: token.colorTextHeading,
             }}
           >
-            欢迎使用 Ant Design Pro
+            欢迎使用 Midjourney Proxy Admin
           </div>
           <p
             style={{
@@ -126,8 +126,8 @@ const Welcome: React.FC = () => {
               width: '65%',
             }}
           >
-            Ant Design Pro 是一个整合了 umi，Ant Design 和 ProComponents
-            的脚手架方案。致力于在设计规范和基础组件的基础上，继续向上构建，提炼出典型模板/业务组件/配套设计资源，进一步提升企业级中后台产品设计研发过程中的『用户』和『设计者』的体验。
+            Midjourney Proxy Admin 是一个整合了 umi，Ant Design 和 ProComponents
+            的后台管理界面。致力于提供Midjourney Proxy的各种管理功能。
           </p>
           <div
             style={{
@@ -138,21 +138,21 @@ const Welcome: React.FC = () => {
           >
             <InfoCard
               index={1}
-              href="https://umijs.org/docs/introduce/introduce"
-              title="了解 umi"
-              desc="umi 是一个可扩展的企业级前端应用框架,umi 以路由为基础的，同时支持配置式路由和约定式路由，保证路由的功能完备，并以此进行功能扩展。"
+              href="https://github.com/novicezk/midjourney-proxy"
+              title="了解 midjourney-proxy"
+              desc="midjourney-proxy 是一个代理 MidJourney 的 discord 频道的开源项目，实现api形式调用AI绘图。"
             />
             <InfoCard
               index={2}
-              title="了解 ant design"
-              href="https://ant.design"
-              desc="antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。"
+              title="了解 wechat-ai"
+              href="https://github.com/litter-coder/wechat-ai"
+              desc="wechat-ai 是基于 chatgpt-on-wechat 和 midjourney-proxy 实现的一个微信机器人项目。"
             />
             <InfoCard
               index={3}
-              title="了解 Pro Components"
-              href="https://procomponents.ant.design"
-              desc="ProComponents 是一个基于 Ant Design 做了更高抽象的模板组件，以 一个组件就是一个页面为开发理念，为中后台开发带来更好的体验。"
+              title="了解 midjourney-proxy-plus"
+              href="https://github.com/litter-coder/midjourney-proxy-plus"
+              desc="midjourney-proxy 的先行版，采用了全新模式。支持mj所有的指令和相关操作，精准匹配所有提交的任务。"
             />
           </div>
         </div>

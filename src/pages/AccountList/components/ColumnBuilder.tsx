@@ -1,47 +1,54 @@
-import { Button, Space, Tag } from 'antd';
+import EditContent from '@/pages/AccountList/components/contents/EditContent ';
+import MoreContent from '@/pages/AccountList/components/contents/MoreContent ';
+import { ReloadOutlined } from '@ant-design/icons';
+import { Button, FormInstance, Space, Tag } from 'antd';
 import moment from 'moment';
-import React from 'react';
+import DelButton from './button/DelButton';
 
 const ColumnBuilder = ({
-  openMoreModal,
+  form,
+  modalFooter,
   openModal,
+  triggerRefreshAccount,
+  handleEdit,
+  handleRefresh,
 }: {
-  openMoreModal: (record: any) => void;
-  openModal: (content: React.JSX.Element, record: any) => void;
+  form: FormInstance;
+  modalFooter: any;
+  openModal: (title: string, content: any, footer: any, modalWidth: number) => void;
+  triggerRefreshAccount: () => void;
+  handleEdit: (values: Record<string, string>) => void;
+  handleRefresh: (id: string) => void;
 }) => {
   const columns = [
     {
       title: '账号名',
       dataIndex: 'name',
       key: 'name',
-      render: (text, record) => <a onClick={() => openMoreModal(record)}>{text}</a>,
+      render: (text: string, record: Record<string, any>) => (
+        <a onClick={() => openModal('账户信息', <MoreContent record={record} />, null, 1000)}>
+          {text}
+        </a>
+      ),
     },
     {
       title: '状态',
       dataIndex: 'enable',
       key: 'enable',
-      render: (enable) => {
+      render: (enable: boolean) => {
         let color = enable ? 'green' : 'volcano';
         let text = enable ? '正常' : '关闭';
-        return (
-          <Tag color={color} key={enable}>
-            {text}
-          </Tag>
-        );
+        return <Tag color={color}>{text}</Tag>;
       },
     },
     {
       title: 'Remix',
       dataIndex: 'remix',
       key: 'remix',
-      render: (remix) => {
+      render: (remix: boolean) => {
         let color = remix ? 'green' : 'volcano';
         let text = remix ? '开启' : '关闭';
-        return (
-          <Tag color={color} key={remix}>
-            {text}
-          </Tag>
-        );
+        return <Tag color={color}>{text}</Tag>;
       },
     },
     {
@@ -58,7 +65,7 @@ const ColumnBuilder = ({
       title: '续订日期',
       dataIndex: 'renewDate',
       key: 'renewDate',
-      render: (renewData) => {
+      render: (renewData: number) => {
         return moment(renewData).format('YYYY-MM-DD HH:mm:ss');
       },
     },
@@ -66,15 +73,31 @@ const ColumnBuilder = ({
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      render: () => {
+      render: (value: any, record: Record<string, string>) => {
         return (
           <Space>
-            <Button key="Edit" type={'primary'} onClick={openModal}>
+            <Button
+              key="Refresh"
+              type={'primary'}
+              title={'同步账户信息'}
+              icon={<ReloadOutlined />}
+              onClick={() => handleRefresh(record.id)}
+            />
+            <Button
+              key="Edit"
+              type={'primary'}
+              onClick={() =>
+                openModal(
+                  '修改账户',
+                  <EditContent form={form} record={record} onSubmit={handleEdit} />,
+                  modalFooter,
+                  500,
+                )
+              }
+            >
               Edit
             </Button>
-            <Button key="Del" onClick={openModal}>
-              Del
-            </Button>
+            <DelButton record={record} onSuccess={triggerRefreshAccount} />
           </Space>
         );
       },

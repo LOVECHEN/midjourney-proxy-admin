@@ -1,53 +1,31 @@
-import { Form, Modal as AntModal } from 'antd';
-import React from 'react';
+import { Modal } from 'antd';
 
-const Modal = ({
+const MyModal = ({
+  title,
   modalVisible,
   hideModal,
   modalContent,
-  value,
-  form,
+  footer,
+  modalWidth,
 }: {
+  title: string;
   modalVisible: boolean;
   hideModal: () => void;
-  modalContent: React.JSX.Element;
-  value: any;
-  form: any;
+  modalContent: any;
+  footer: any;
+  modalWidth: number;
 }) => {
-  const [fieldsValue, setFieldsValue] = React.useState({});
-
-  React.useEffect(() => {
-    if (modalVisible) {
-      setFieldsValue(value);
-    } else {
-      setFieldsValue({});
-    }
-  }, [modalVisible]);
-
-  React.useEffect(() => {
-    form.setFieldsValue(fieldsValue);
-  }, [fieldsValue]);
-
   return (
-    <AntModal
-      title="Basic Modal"
+    <Modal
+      title={title}
       open={modalVisible}
-      // onOk={handleOk}
       onCancel={hideModal}
-      width={1000}
+      footer={footer}
+      width={modalWidth}
     >
-      <Form
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        labelAlign="left"
-        layout="inline"
-        style={{ maxWidth: 'none' }}
-        form={form}
-      >
-        {modalContent}
-      </Form>
-    </AntModal>
+      {modalContent}
+    </Modal>
   );
 };
 
-export default Modal;
+export default MyModal;

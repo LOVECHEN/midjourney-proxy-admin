@@ -1,15 +1,7 @@
-import { Card, Descriptions, Modal as AntModal, Tag, Tooltip } from 'antd';
+import { Card, Descriptions, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 
-const MoreModal = ({
-  modalVisible,
-  hideModal,
-  record,
-}: {
-  modalVisible: boolean;
-  hideModal: () => void;
-  record: any;
-}) => {
+const MoreContent = ({ record }: { record: Record<string, any> }) => {
   const getStatusTag = (enable: boolean, enableText: string, disableText: string) => {
     let color = enable ? 'green' : 'volcano';
     let text = enable ? enableText : disableText;
@@ -20,12 +12,8 @@ const MoreModal = ({
     return moment(date).format('YYYY-MM-DD HH:mm');
   };
 
-  if (!record || Object.keys(record).length === 0) {
-    return (<AntModal></AntModal>);
-  }
-
   return (
-    <AntModal title="完整信息" open={modalVisible} onCancel={hideModal} width={1000} footer={null}>
+    <>
       <Card type="inner" title="账户信息" style={{ margin: '10px' }}>
         <Descriptions column={3}>
           <Descriptions.Item label="账号名">{record.name}</Descriptions.Item>
@@ -73,7 +61,7 @@ const MoreModal = ({
       <Card type="inner" title="并发信息" style={{ margin: '10px' }}>
         <Descriptions column={3}>
           <Descriptions.Item label="并发数">{record.coreSize}</Descriptions.Item>
-          <Descriptions.Item label="等待队列长度">{record.queueSize}</Descriptions.Item>
+          <Descriptions.Item label="等待队列">{record.queueSize}</Descriptions.Item>
           <Descriptions.Item label="任务超时时间(分钟)">{record.timeoutMinutes}</Descriptions.Item>
         </Descriptions>
       </Card>
@@ -82,14 +70,18 @@ const MoreModal = ({
         <Descriptions column={3}>
           <Descriptions.Item label="创建时间">{changeDate(record.dateCreated)}</Descriptions.Item>
           <Descriptions.Item label="stylize级别">{record['displays']['stylize']}</Descriptions.Item>
-          <Descriptions.Item label="variation级别">{record['displays']['variation']}</Descriptions.Item>
-          <Descriptions.Item label="订阅计划">{record['displays']['subscribePlan']}</Descriptions.Item>
+          <Descriptions.Item label="variation级别">
+            {record['displays']['variation']}
+          </Descriptions.Item>
+          <Descriptions.Item label="订阅计划">
+            {record['displays']['subscribePlan']}
+          </Descriptions.Item>
           <Descriptions.Item label="计费方式">{record['displays']['billedWay']}</Descriptions.Item>
           <Descriptions.Item label="续订日期">{changeDate(record.renewDate)}</Descriptions.Item>
         </Descriptions>
       </Card>
-    </AntModal>
+    </>
   );
 };
 
-export default MoreModal;
+export default MoreContent;

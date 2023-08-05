@@ -1,8 +1,14 @@
 import ColumnBuilder from '@/pages/AccountList/components/ColumnBuilder';
-import Modal from '@/pages/AccountList/components/Modal';
-import MoreModal from '@/pages/AccountList/components/modals/MoreModal';
-import { queryAccount } from '@/services/ant-design-pro/api';
+import AddContent from '@/pages/AccountList/components/contents/AddContent ';
+import MyModal from '@/pages/AccountList/components/Modal';
+import {
+  createAccount,
+  queryAccount,
+  refreshAccount,
+  updateAccount,
+} from '@/services/ant-design-pro/api';
 import { useIntl } from '@@/exports';
+import { ReloadOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Card, Col, Form, Pagination, Row, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -12,31 +18,39 @@ const AccountList: React.FC = () => {
   // 初始化 dataSource 状态为空数组
   const [dataSource, setDataSource] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [moreModalVisible, setMoreModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState<React.JSX.Element>({});
-  const [fieldsValue, setFieldsValue] = useState({});
-  const [moreField, setMoreField] = useState({});
+  const [modalContent, setModalContent] = useState({});
+  const [title, setTitle] = useState<string>('');
+  const [footer, setFooter] = useState({});
+  const [modalWidth, setModalWidth] = useState(1000);
+  const [refresh, setRefresh] = useState(0);
   const [form] = Form.useForm();
 
-  const openModal = (content: React.JSX.Element, record: any) => {
+  const openModal = (title: string, content: any, footer: any, modalWidth: number) => {
+    setTitle(title);
     setModalContent(content);
-    setFieldsValue(record);
+    setFooter(footer);
+    setModalWidth(modalWidth);
     setModalVisible(true);
   };
 
   const hideModal = () => {
     setModalContent({});
+    setFooter({});
     setModalVisible(false);
   };
 
-  const openMoreModal = (record: any) => {
-    console.log(record)
-    setMoreField(record);
-    setMoreModalVisible(true);
-  };
-
-  const hideMoreModal = () => {
-    setMoreModalVisible(false);
+  const modalFooter = () => {
+    return (
+      <>
+        <Button key="back" onClick={hideModal}>
+          取消
+        </Button>
+        ,
+        <Button key="submit" type="primary" onClick={() => form.submit()}>
+          提交
+        </Button>
+      </>
+    );
   };
 
   const intl = useIntl();
@@ -45,16 +59,37 @@ const AccountList: React.FC = () => {
     defaultMessage: 'Account Table',
   });
 
+  // 定义一个 triggerRefresh 函数，使其增加 refresh 的值，从而触发重新渲染
+  const triggerRefreshAccount = () => {
+    setRefresh(refresh + 1);
+  };
+
+  const fetchData = async () => {
+    const res = await queryAccount({});
+    setDataSource(res.content);
+  };
+
+  const handleAdd = async (values: Record<string, string>) => {
+    await createAccount(values);
+    triggerRefreshAccount();
+    hideModal();
+  };
+
+  const handleEdit = async (values: Record<string, string>) => {
+    await updateAccount(values.id, values);
+    triggerRefreshAccount();
+    hideModal();
+  };
+
+  const handleRefresh = async (id: string) => {
+    await refreshAccount(id);
+    triggerRefreshAccount();
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await queryAccount({});
-      setDataSource(res.content);
-    };
-
     fetchData();
-  }, []);
+  }, [refresh]);
 
-  const searchLayout = () => {};
   const beforeLayout = () => {
     return (
       <Row>
@@ -63,7 +98,20 @@ const AccountList: React.FC = () => {
         </Col>
         <Col xs={24} sm={12} className={styles.tableToolbar}>
           <Space>
-            <Button type={'primary'}>Add</Button>
+            <Button
+              type={'primary'}
+              onClick={() => {
+                openModal(
+                  '新增账户',
+                  <AddContent form={form} onSubmit={handleAdd} />,
+                  modalFooter,
+                  1000,
+                );
+              }}
+            >
+              Add
+            </Button>
+            <Button type="primary" onClick={triggerRefreshAccount} icon={<ReloadOutlined />} />
           </Space>
         </Col>
       </Row>
@@ -72,9 +120,7 @@ const AccountList: React.FC = () => {
   const afterLayout = () => {
     return (
       <Row>
-        <Col xs={24} sm={12}>
-          ...
-        </Col>
+        <Col xs={24} sm={12}></Col>
         <Col xs={24} sm={12} className={styles.tableToolbar}>
           <Pagination></Pagination>
         </Col>
@@ -84,29 +130,31 @@ const AccountList: React.FC = () => {
 
   return (
     <PageContainer>
-      {searchLayout()}
       <Card>
         {beforeLayout()}
         <Table
           rowKey="id"
           dataSource={dataSource}
-          columns={ColumnBuilder({ openMoreModal, openModal, form })}
+          columns={ColumnBuilder({
+            form,
+            modalFooter,
+            openModal,
+            triggerRefreshAccount,
+            handleEdit,
+            handleRefresh,
+          })}
           pagination={false}
         />
         {afterLayout()}
       </Card>
-      <Modal
+      <MyModal
+        title={title}
         modalVisible={modalVisible}
         hideModal={hideModal}
         modalContent={modalContent}
-        value={fieldsValue}
-        form={form}
-      ></Modal>
-      <MoreModal
-        modalVisible={moreModalVisible}
-        hideModal={hideMoreModal}
-        record={moreField}
-      ></MoreModal>
+        footer={footer}
+        modalWidth={modalWidth}
+      ></MyModal>
     </PageContainer>
   );
 };
