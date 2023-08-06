@@ -1,12 +1,7 @@
 import ColumnBuilder from '@/pages/AccountList/components/ColumnBuilder';
 import AddContent from '@/pages/AccountList/components/contents/AddContent ';
 import MyModal from '@/pages/AccountList/components/Modal';
-import {
-  createAccount,
-  queryAccount,
-  refreshAccount,
-  updateAccount,
-} from '@/services/ant-design-pro/api';
+import { createAccount, queryAccount, updateAccount } from '@/services/ant-design-pro/api';
 import { useIntl } from '@@/exports';
 import { ReloadOutlined, UserAddOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
@@ -26,6 +21,7 @@ const AccountList: React.FC = () => {
   const [form] = Form.useForm();
 
   const openModal = (title: string, content: any, footer: any, modalWidth: number) => {
+    form.resetFields();
     setTitle(title);
     setModalContent(content);
     setFooter(footer);
@@ -80,11 +76,6 @@ const AccountList: React.FC = () => {
     hideModal();
   };
 
-  const handleRefresh = async (id: string) => {
-    await refreshAccount(id);
-    triggerRefreshAccount();
-  };
-
   useEffect(() => {
     fetchData();
   }, [refresh]);
@@ -99,7 +90,7 @@ const AccountList: React.FC = () => {
           <Space>
             <Button
               type={'primary'}
-              icon={<UserAddOutlined />} 
+              icon={<UserAddOutlined />}
               onClick={() => {
                 openModal(
                   '新增账户',
@@ -108,8 +99,12 @@ const AccountList: React.FC = () => {
                   1000,
                 );
               }}
-            >添加</Button>
-            <Button onClick={triggerRefreshAccount} icon={<ReloadOutlined />}>刷新</Button>
+            >
+              添加
+            </Button>
+            <Button onClick={triggerRefreshAccount} icon={<ReloadOutlined />}>
+              刷新
+            </Button>
           </Space>
         </Col>
       </Row>
@@ -139,7 +134,6 @@ const AccountList: React.FC = () => {
             openModal,
             triggerRefreshAccount,
             handleEdit,
-            handleRefresh,
           })}
           pagination={false}
         />

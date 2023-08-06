@@ -2,6 +2,8 @@
 import type { RequestConfig } from '@umijs/max';
 import { message, notification } from 'antd';
 
+const MJ_API_SECRET = process.env.UMI_APP_MJ_API_SECRET || '';
+
 // 错误处理方案： 错误类型
 enum ErrorShowType {
   SILENT = 0,
@@ -89,8 +91,11 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
-      return { ...config, url };
+      config.headers = {
+        ...config.headers,
+        'mj-api-secret': MJ_API_SECRET, // 你的自定义头部
+      };
+      return { ...config };
     },
   ],
 
@@ -99,7 +104,13 @@ export const errorConfig: RequestConfig = {
     (response) => {
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
-
+      if (data?.code) {
+        if (data.code === 200 || data.code === 1) {
+          message.success(data?.description || '请求失败！');
+        } else {
+          message.error(data?.description || '请求失败！');
+        }
+      }
       if (data?.success === false) {
         message.error('请求失败！');
       }

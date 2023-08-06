@@ -1,7 +1,8 @@
 import EditContent from '@/pages/AccountList/components/contents/EditContent ';
 import MoreContent from '@/pages/AccountList/components/contents/MoreContent ';
-import { ToolOutlined, EditOutlined } from '@ant-design/icons';
+import { EditOutlined, ToolOutlined } from '@ant-design/icons';
 import { Button, FormInstance, Space, Tag } from 'antd';
+import { ColumnType } from 'antd/lib/table';
 import moment from 'moment';
 import DelButton from './button/DelButton';
 import SyncButton from './button/SyncButton';
@@ -12,14 +13,12 @@ const ColumnBuilder = ({
   openModal,
   triggerRefreshAccount,
   handleEdit,
-  handleRefresh,
 }: {
   form: FormInstance;
   modalFooter: any;
   openModal: (title: string, content: any, footer: any, modalWidth: number) => void;
   triggerRefreshAccount: () => void;
   handleEdit: (values: Record<string, string>) => void;
-  handleRefresh: (id: string) => void;
 }) => {
   const columns = [
     {
@@ -30,7 +29,7 @@ const ColumnBuilder = ({
           {text}
         </a>
       ),
-    },
+    } as ColumnType<Record<string, any>>,
     {
       title: '状态',
       dataIndex: 'enable',
@@ -41,7 +40,7 @@ const ColumnBuilder = ({
         let text = enable ? '启用' : '未启用';
         return <Tag color={color}>{text}</Tag>;
       },
-    },
+    } as ColumnType<Record<string, any>>,
     {
       title: 'Remix',
       dataIndex: 'remix',
@@ -52,18 +51,18 @@ const ColumnBuilder = ({
         let text = remix ? '开启' : '关闭';
         return <Tag color={color}>{text}</Tag>;
       },
-    },
+    } as ColumnType<Record<string, any>>,
     {
       title: '模式',
       dataIndex: 'mode',
       width: 120,
       align: 'center',
-      render: (text, record) => record['displays']['mode'],
-    },
+      render: (text: string, record: Record<string, any>) => record['displays']['mode'],
+    } as ColumnType<Record<string, any>>,
     {
       title: '快速时间剩余',
       dataIndex: 'fastTimeRemaining',
-    },
+    } as ColumnType<Record<string, any>>,
     {
       title: '续订时间',
       dataIndex: 'renewDate',
@@ -71,7 +70,7 @@ const ColumnBuilder = ({
       render: (renewData: number) => {
         return moment(renewData).format('YYYY-MM-DD HH:mm');
       },
-    },
+    } as ColumnType<Record<string, any>>,
     {
       title: '操作',
       dataIndex: 'operation',
@@ -83,7 +82,7 @@ const ColumnBuilder = ({
             <Button
               key="Edit"
               type={'primary'}
-              icon = {<EditOutlined/>}
+              icon={<EditOutlined />}
               onClick={() =>
                 openModal(
                   '修改账户',
@@ -95,7 +94,7 @@ const ColumnBuilder = ({
             />
             <Button
               key="EditAndReconnect"
-              icon = {<ToolOutlined/>}
+              icon={<ToolOutlined />}
               onClick={() =>
                 openModal(
                   '更新账户并重连',
@@ -109,7 +108,7 @@ const ColumnBuilder = ({
           </Space>
         );
       },
-    },
+    } as ColumnType<Record<string, any>>,
   ];
 
   return columns;

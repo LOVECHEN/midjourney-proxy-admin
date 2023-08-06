@@ -2,8 +2,6 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-const MJ_API_SECRET = process.env.UMI_APP_MJ_API_SECRET || '';
-
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
@@ -93,7 +91,6 @@ export async function createAccount(data: object, options?: { [key: string]: any
   return request<Record<string, any>>('/mj/account/create', {
     method: 'POST',
     data: data,
-    headers: { 'mj-api-secret': MJ_API_SECRET },
     ...(options || {}),
   });
 }
@@ -103,7 +100,6 @@ export async function queryAccount(data: object, options?: { [key: string]: any 
   return request<Record<string, any>>('/mj/account/query', {
     method: 'POST',
     data: data,
-    headers: { 'mj-api-secret': MJ_API_SECRET || '' },
     ...(options || {}),
   });
 }
@@ -112,7 +108,6 @@ export async function queryAccount(data: object, options?: { [key: string]: any 
 export async function refreshAccount(id: string, options?: { [key: string]: any }) {
   return request<Record<string, any>>(`/mj/account/${id}/sync-info`, {
     method: 'POST',
-    headers: { 'mj-api-secret': MJ_API_SECRET },
     ...(options || {}),
   });
 }
@@ -122,7 +117,6 @@ export async function updateAccount(id: string, data: object, options?: { [key: 
   return request<Record<string, any>>(`/mj/account/${id}/update`, {
     method: 'PUT',
     data: data,
-    headers: { 'mj-api-secret': MJ_API_SECRET },
     ...(options || {}),
   });
 }
@@ -131,7 +125,6 @@ export async function updateAccount(id: string, data: object, options?: { [key: 
 export async function deleteAccount(id: string, options?: { [key: string]: any }) {
   return request<Record<string, any>>(`/mj/account/${id}/delete`, {
     method: 'DELETE',
-    headers: { 'mj-api-secret': MJ_API_SECRET },
     ...(options || {}),
   });
 }
@@ -140,7 +133,6 @@ export async function queryTask(data: object, options?: { [key: string]: any }) 
   return request<Record<string, any>>('/mj/task-admin/query', {
     method: 'POST',
     data: data,
-    headers: { 'mj-api-secret': MJ_API_SECRET },
     ...(options || {}),
   });
 }

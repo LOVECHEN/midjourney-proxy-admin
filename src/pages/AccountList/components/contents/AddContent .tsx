@@ -18,7 +18,7 @@ const AddContent = ({
       queueSize: 10,
       timeoutMinutes: 5,
     });
-  }, []);
+  });
 
   return (
     <Form
