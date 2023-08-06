@@ -8,7 +8,7 @@ import {
   updateAccount,
 } from '@/services/ant-design-pro/api';
 import { useIntl } from '@@/exports';
-import { ReloadOutlined } from '@ant-design/icons';
+import { ReloadOutlined, UserAddOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Card, Col, Form, Pagination, Row, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -45,7 +45,6 @@ const AccountList: React.FC = () => {
         <Button key="back" onClick={hideModal}>
           取消
         </Button>
-        ,
         <Button key="submit" type="primary" onClick={() => form.submit()}>
           提交
         </Button>
@@ -100,6 +99,7 @@ const AccountList: React.FC = () => {
           <Space>
             <Button
               type={'primary'}
+              icon={<UserAddOutlined />} 
               onClick={() => {
                 openModal(
                   '新增账户',
@@ -108,10 +108,8 @@ const AccountList: React.FC = () => {
                   1000,
                 );
               }}
-            >
-              Add
-            </Button>
-            <Button type="primary" onClick={triggerRefreshAccount} icon={<ReloadOutlined />} />
+            >添加</Button>
+            <Button onClick={triggerRefreshAccount} icon={<ReloadOutlined />}>刷新</Button>
           </Space>
         </Col>
       </Row>

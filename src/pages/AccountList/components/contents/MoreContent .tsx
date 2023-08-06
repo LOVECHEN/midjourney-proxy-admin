@@ -40,15 +40,15 @@ const MoreContent = ({ record }: { record: Record<string, any> }) => {
       <Card type="inner" title="基本信息" style={{ margin: '10px' }}>
         <Descriptions column={3}>
           <Descriptions.Item label="状态">
-            {getStatusTag(record.enable, '正常', '关闭')}
+            {getStatusTag(record.enable, '启用', '未启用')}
           </Descriptions.Item>
           <Descriptions.Item label="mj版本">{record.version}</Descriptions.Item>
           <Descriptions.Item label="账号模式">{record['displays']['mode']}</Descriptions.Item>
           <Descriptions.Item label="remix">
-            {getStatusTag(record.remix, '正常', '关闭')}
+            {getStatusTag(record.remix, '开启', '关闭')}
           </Descriptions.Item>
           <Descriptions.Item label="raw">
-            {getStatusTag(record.raw, '正常', '关闭')}
+            {getStatusTag(record.raw, '开启', '关闭')}
           </Descriptions.Item>
           <Descriptions.Item label="公开">
             {getStatusTag(record.publicMode, '是', '否')}
@@ -77,7 +77,7 @@ const MoreContent = ({ record }: { record: Record<string, any> }) => {
             {record['displays']['subscribePlan']}
           </Descriptions.Item>
           <Descriptions.Item label="计费方式">{record['displays']['billedWay']}</Descriptions.Item>
-          <Descriptions.Item label="续订日期">{changeDate(record.renewDate)}</Descriptions.Item>
+          <Descriptions.Item label="续订时间">{changeDate(record.renewDate)}</Descriptions.Item>
         </Descriptions>
       </Card>
     </>

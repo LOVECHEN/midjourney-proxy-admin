@@ -1,9 +1,10 @@
 import EditContent from '@/pages/AccountList/components/contents/EditContent ';
 import MoreContent from '@/pages/AccountList/components/contents/MoreContent ';
-import { ReloadOutlined } from '@ant-design/icons';
+import { ToolOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, FormInstance, Space, Tag } from 'antd';
 import moment from 'moment';
 import DelButton from './button/DelButton';
+import SyncButton from './button/SyncButton';
 
 const ColumnBuilder = ({
   form,
@@ -24,7 +25,6 @@ const ColumnBuilder = ({
     {
       title: '账号名',
       dataIndex: 'name',
-      key: 'name',
       render: (text: string, record: Record<string, any>) => (
         <a onClick={() => openModal('账户信息', <MoreContent record={record} />, null, 1000)}>
           {text}
@@ -34,17 +34,19 @@ const ColumnBuilder = ({
     {
       title: '状态',
       dataIndex: 'enable',
-      key: 'enable',
+      width: 100,
+      align: 'center',
       render: (enable: boolean) => {
         let color = enable ? 'green' : 'volcano';
-        let text = enable ? '正常' : '关闭';
+        let text = enable ? '启用' : '未启用';
         return <Tag color={color}>{text}</Tag>;
       },
     },
     {
       title: 'Remix',
       dataIndex: 'remix',
-      key: 'remix',
+      width: 100,
+      align: 'center',
       render: (remix: boolean) => {
         let color = remix ? 'green' : 'volcano';
         let text = remix ? '开启' : '关闭';
@@ -54,19 +56,20 @@ const ColumnBuilder = ({
     {
       title: '模式',
       dataIndex: 'mode',
-      key: 'mode',
+      width: 120,
+      align: 'center',
+      render: (text, record) => record['displays']['mode'],
     },
     {
-      title: '快速时间',
+      title: '快速时间剩余',
       dataIndex: 'fastTimeRemaining',
-      key: 'fastTimeRemaining',
     },
     {
-      title: '续订日期',
+      title: '续订时间',
       dataIndex: 'renewDate',
-      key: 'renewDate',
+      align: 'center',
       render: (renewData: number) => {
-        return moment(renewData).format('YYYY-MM-DD HH:mm:ss');
+        return moment(renewData).format('YYYY-MM-DD HH:mm');
       },
     },
     {
@@ -76,16 +79,11 @@ const ColumnBuilder = ({
       render: (value: any, record: Record<string, string>) => {
         return (
           <Space>
-            <Button
-              key="Refresh"
-              type={'primary'}
-              title={'同步账户信息'}
-              icon={<ReloadOutlined />}
-              onClick={() => handleRefresh(record.id)}
-            />
+            <SyncButton record={record} onSuccess={triggerRefreshAccount} />
             <Button
               key="Edit"
               type={'primary'}
+              icon = {<EditOutlined/>}
               onClick={() =>
                 openModal(
                   '修改账户',
@@ -94,9 +92,19 @@ const ColumnBuilder = ({
                   500,
                 )
               }
-            >
-              Edit
-            </Button>
+            />
+            <Button
+              key="EditAndReconnect"
+              icon = {<ToolOutlined/>}
+              onClick={() =>
+                openModal(
+                  '更新账户并重连',
+                  <EditContent form={form} record={record} onSubmit={handleEdit} />,
+                  modalFooter,
+                  500,
+                )
+              }
+            />
             <DelButton record={record} onSuccess={triggerRefreshAccount} />
           </Space>
         );
