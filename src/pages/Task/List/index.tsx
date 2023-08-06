@@ -77,7 +77,7 @@ const List: React.FC = () => {
       showInfo: false,
       render: (text, record) => {
         let percent = 0;
-        if (text.indexOf('%') > 0) {
+        if (text && text.indexOf('%') > 0) {
           percent = parseInt(text.substring(0, text.indexOf('%')));
         }
         let status = 'normal';
